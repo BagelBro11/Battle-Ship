@@ -1,12 +1,13 @@
 public class App {
     public static void main(String[] args) throws InterruptedException{
-        
-        grid(10,10);
+        int row = 10;
+        int col = 10;
+        int[][] grid = new int[row][col];
+        grid(grid, 10,10);
         
     }
 
-    public static void grid(int row, int col){
-        int[][] array = new int[row][col];
+    public static void grid(int[][]array, int row, int col){
         Utilities.clrscrn();
         System.out.print("   ");
         for(int i = 0; i < 10; i++){
