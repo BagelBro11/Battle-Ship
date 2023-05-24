@@ -1,11 +1,14 @@
 public class App {
-    public static void main(String[] args) throws Exception {
-        prn("Hello, World!");
+    public static void main(String[] args) throws InterruptedException{
+        Utilities.clrscrn();
+        for(int i = 0; i < 10; i++){
+            prt(i + " ");
+        }
     }
 
     
     
-    public static void prn(String text) throws InterruptedException {
+    public static void prt(String text) throws InterruptedException {
         for (int i = 0; i < text.length(); i++) {
             System.out.print(text.charAt(i));
             Thread.sleep(50);
@@ -14,5 +17,15 @@ public class App {
         System.out.println("\n"); // new line
     }
 
-
+    
+    public static String[][] grid() throws InterruptedException{
+        for(int i = 0; i < 10; i++){
+            prt(i);
+        }
+        int row = 10;
+        int col = 10;
+        
+    
+    
+    }
 }
