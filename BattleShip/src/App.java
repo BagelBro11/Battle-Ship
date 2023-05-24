@@ -3,6 +3,8 @@ public class App {
         Utilities.clrscrn();
         System.out.print("  ");
         border();
+       grid(10,10);
+        
     }
 
     
@@ -51,8 +53,14 @@ public class App {
     
     }
 
-    public static String[][] grid(int row, int col){
-        
+    public static void grid(int row, int col){
+        int[][] array = new int[row][col];
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++){
+                System.out.print(array[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
 
