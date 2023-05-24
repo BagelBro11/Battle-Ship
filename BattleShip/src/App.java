@@ -1,9 +1,13 @@
+import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws InterruptedException{
+        Scanner in = new Scanner(System.in);
+
         int row = 10;
         int col = 10;
         int[][] grid = new int[row][col];
         grid(grid, 10,10);
+
         
     }
 
