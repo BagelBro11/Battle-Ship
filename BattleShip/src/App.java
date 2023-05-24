@@ -1,31 +1,59 @@
 public class App {
     public static void main(String[] args) throws InterruptedException{
         Utilities.clrscrn();
-        for(int i = 0; i < 10; i++){
-            prt(i + " ");
-        }
+        System.out.print("  ");
+        border();
     }
 
     
     
-    public static void prt(String text) throws InterruptedException {
-        for (int i = 0; i < text.length(); i++) {
-            System.out.print(text.charAt(i));
-            Thread.sleep(50);
-        } // this loop gives the typewriter effect for by printing each character and then
-          // thread.sleep to show pause
-        System.out.println("\n"); // new line
-    }
+    
 
     
-    public static String[][] grid() throws InterruptedException{
+    public static void border() throws InterruptedException{
         for(int i = 0; i < 10; i++){
-            prt(i);
+            System.out.print((i + 1) + " ");
         }
-        int row = 10;
-        int col = 10;
+        for(int j = 0; j < 10; j++){
+            if(j == 0){
+                System.out.println("\nA");
+            }
+            else if(j == 1){
+                System.out.println("B");
+            }
+            else if(j == 2){
+                System.out.println("C");
+            }
+            else if(j == 3){
+                System.out.println("D");
+            }
+            else if(j == 4){
+                System.out.println("E");
+            }
+            else if(j == 5){
+                System.out.println("F");
+            }
+            else if(j == 6){
+                System.out.println("G");
+            }
+            else if(j == 7){
+                System.out.println("H");
+            }
+            else if(j == 8){
+                System.out.println("I");
+            }
+            else if(j == 9){
+                System.out.println("J");
+            }
+
+        }
+
+    
+    }
+
+    public static String[][] grid(int row, int col){
         
-    
-    
     }
 }
+
+
