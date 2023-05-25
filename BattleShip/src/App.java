@@ -11,6 +11,7 @@ public class App {
         Utilities.prt(
                 "Please input cooridinate you'd like to flip, starting with the letter, space, and then the number.");
         Utilities.prt("If you hit a boat it is a 2, if it is a miss it is a 1!");
+        Utilities.prt("Be careful...you only have 50 guesses!");
         int i = 0;
         while (!done) {
             grid(grid, 10, 10);
