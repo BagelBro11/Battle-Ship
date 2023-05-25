@@ -6,10 +6,12 @@ public class App {
         int col = 10;
         int[][] grid = new int[row][col];
         boolean done = false;
+        Utilities.clrscrn();
+        Utilities.prt("Please input cooridinate you'd like to flip, starting with the letter, space, and then the number.");
+        Utilities.prt("If you hit a boat it is a 2, if it is a miss it is a 1!");
         while(!done){
         grid(grid, 10,10);
-        Utilities.prt("Please input cooridinate you'd like to flip, starting with the letter, space, and then the number.");
-        Utilities.prt("If you hit a boat it is a 1, if it is a miss it is a 3!");
+        
         System.out.print("Enter: ");
         String input = in.nextLine();
         String[] string = input.split(" ");
@@ -70,91 +72,114 @@ public class App {
         int row = letter.charAt(0) - 97;
         if(letter.equals("a")){
             if(number == 5){
-                array[row][4] = 1;
+                array[row][4] = 2;
             }
             else if(number == 9){
-                array[row][8] = 1;
+                array[row][8] = 2;
             }
-            else if(number == 1){
-                array[row][9] = 1;
+            else if(number == 10){
+                array[row][9] = 2;
             }
             else{
-                array[row][number] = 3;
+                array[row][number - 1] = 1;
             }
         }
         else if(letter.equals("b")){
             if(number == 1){
-                array[row][0] = 1;
+                array[row][0] = 2;
             }
             else if(number == 5){
-                array[row][4] = 1;
+                array[row][4] = 2;
             }
             else{
-                array[row][number] = 3;
+                array[row][number - 1] = 1;
             }
         }
         else if(letter.equals("c")){
             if(number == 1){
-                array[row][0] = 1;
+                array[row][0] = 2;
             }
             else if(number == 5){
-                array[row][4] = 1;
+                array[row][4] = 2;
             }
             else{
-                array[row][number] = 3;
+                array[row][number - 1 ] = 1;
             }
         }
         else if(letter.equals("d")){
             if(number == 1){
-                array[row][0] = 1;
+                array[row][0] = 2;
             }
             else if(number == 5){
-                array[row][4] = 1;
+                array[row][4] = 2;
             }
             else{
-                array[row][number] = 3;
+                array[row][number - 1] = 1;
             }
         }
         else if(letter.equals("f")){
             if(number == 8){
-                array[row][7] = 1;
+                array[row][7] = 2;
             }
             else if(number == 9){
-                array[row][8] = 1;
+                array[row][8] = 2;
             }
             else if(number == 10){
-                array[row][9] = 1;
+                array[row][9] = 2;
             }
             else{
-                array[row][number] = 3;
+                array[row][number - 1] = 1;
             }
         }
         else if(letter.equals("i")){
             if(number == 4){
-                array[row][3] = 1;
+                array[row][3] = 2;
             }
             else if(number == 5){
-                array[row][4] = 1;
+                array[row][4] = 2;
             }
             else if(number == 6){
-                array[row][5] = 1;
+                array[row][5] = 2;
             }
             else if(number == 7){
-                array[row][6] = 1;
+                array[row][6] = 2;
             }
             else if(number == 8){
-                array[row][7] = 1;
+                array[row][7] = 2;
             }
             else{
-                array[row][number] = 3;
+                array[row][number - 1] = 1;
             }
         }
         else{
-            array[row][number] = 3;
+            array[row][number -1 ] = 1;
         }
     }
 
-    public static boolean win()
+    public static boolean Win(int[][] array){
+        boolean one = false;
+        boolean two = false;
+        boolean three = false;
+        boolean four = false;
+        boolean five = false;
+        if(array[0][8] == 2 && array[0][9] == 2 ){
+            one = true;
+        }
+        if(array[0][4] == 2 && array[1][4] == 2 && array[2][4] == 2 && array[3][4] == 2){
+            two = true;
+        }
+        if(array[1][1] == 2 && array[2][1] == 2 && array[3][1] == 2){
+            three = true;
+        }
+        if(array[5][8] == 2 && array[5][9] == 2 && array[5][10] == 2){
+            four = true;
+        }
+        if(array[8][4] == 2 && array[8][5] == 2 && array[8][6] == 2 && array[8][7] == 2 && array[8][8] == 2){
+            five = true;
+        }
+       
+        
+    }
 }
 
 
