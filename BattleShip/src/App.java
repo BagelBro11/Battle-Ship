@@ -14,10 +14,11 @@ public class App {
         Utilities.clrscrn();
        
         //instruction for user
+        Utilities.prt("----------BATTLESHIP----------");
         Utilities.prt(
                 "Please input cooridinate you'd like to choose, starting with the letter, space, and then the number.");
         Utilities.prt("If you hit a boat it is a 2, if you miss it is a 1!");
-        Utilities.prt("Be careful...you only have 50 guesses!");
+        Utilities.prt("Be careful...you only have 50 guesses to fully destroy all the boats!");
        
         //counter for how many tries user has taken
         int i = 0;
