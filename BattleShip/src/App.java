@@ -3,26 +3,40 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws InterruptedException {
         Scanner in = new Scanner(System.in);
+       
+        //creating the array in main 
         int row = 10;
         int col = 10;
         int[][] grid = new int[row][col];
+       
+        //done to check weather to still run while loop
         boolean done = false;
         Utilities.clrscrn();
+       
+        //instruction for user
         Utilities.prt(
                 "Please input cooridinate you'd like to choose, starting with the letter, space, and then the number.");
         Utilities.prt("If you hit a boat it is a 2, if you miss it is a 1!");
         Utilities.prt("Be careful...you only have 50 guesses!");
+       
+        //counter for how many tries user has taken
         int i = 0;
+        
+        //game loop that is checked with done boolean 
         while (!done) {
+            //uses grid method to print the map
             grid(grid, 10, 10);
 
+            //gets user input and splits it into an array, a letter and a number in one line 
             System.out.print("Enter: ");
             String input = in.nextLine();
             String[] string = input.split(" ");
             string[0] = string[0].toLowerCase();
 
+            //adds the input to the change method 
             change(grid, string[0], Integer.parseInt(string[1]));
 
+            //uses win method to check if won and ends game, if not adds a try
             if (win(grid)) {
                 Utilities.prt("You have won!");
                 done = true;
@@ -30,8 +44,11 @@ public class App {
             else{
                 i++;
             }
+            
+            //if the tries surpass 50 they lose and game is over
             if(i > 50){
                 Utilities.prt("You have lost and used too many tries.");
+                done = true;
             }
         }
     }
