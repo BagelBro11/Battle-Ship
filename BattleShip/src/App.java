@@ -52,12 +52,21 @@ public class App {
             }
         }
     }
-
+    
+    /**
+     * grid method is for printing the original grid with numbers and letters 
+     * @param array is the array that will be printed by the method initialized in main
+     * @param row the "y" value of the array used in the for loop
+     * @param col the "x" value of the array used in the inner "j" for loop
+     */
     public static void grid(int[][] array, int row, int col) {
         System.out.print("   ");
+        //prints numbers above the array for x cooridinate tracking
         for (int i = 0; i < 10; i++) {
             System.out.print((i + 1) + "  ");
         }
+        
+        //prints letters on the y axis of array for y cooridinate tracking
         for (int i = 0; i < row; i++) {
             if (i == 0) {
                 System.out.print("\nA  ");
@@ -80,6 +89,7 @@ public class App {
             } else if (i == 9) {
                 System.out.print("J  ");
             }
+            //after letters are printed the rest of numbered array is printed
             for (int j = 0; j < col; j++) {
 
                 System.out.print(array[i][j] + "  ");
@@ -89,8 +99,17 @@ public class App {
         }
     }
 
+    /**
+     * change method modifies the array to user specification
+     * @param array array being modified from main
+     * @param letter the letter or "y" coordinate specified
+     * @param number the number or "x" coordinate specified
+     */
     public static void change(int[][] array, String letter, int number) {
+        //able to convert letters into numbers using ASCII table
         int row = letter.charAt(0) - 97;
+       
+        //depending on the "hit" coordinates they will change to 2 if number and letter are correct
         if (letter.equals("a")) {
             if (number == 5) {
                 array[row][4] = 2;
@@ -149,17 +168,24 @@ public class App {
             } else {
                 array[row][number - 1] = 1;
             }
-        } else {
+        } else { //if it is not a hit it turns into a one ("else miss" also found above for the specified letters )
             array[row][number - 1] = 1;
         }
     }
 
+    /**
+     * win method checks if the user has hit all of the boats 
+     * @param array the array checked for all the hits 
+     * @return //a true of false if all conditions satisfied
+     */
     public static boolean win(int[][] array) {
+        //one boolean for each boat 
         boolean one = false;
         boolean two = false;
         boolean three = false;
         boolean four = false;
         boolean five = false;
+        //if coordinates of each boat are hit it satisfies it's paralell boolean 
         if (array[0][8] == 2 && array[0][9] == 2) {
             one = true;
         }
@@ -175,9 +201,10 @@ public class App {
         if (array[8][3] == 2 && array[8][4] == 2 && array[8][5] == 2 && array[8][6] == 2 && array[8][7] == 2) {
             five = true;
         }
+        //all boats are satisfies returns true for win
         if (one && two && three && four && five) {
             return true;
-        } else {
+        } else {//if not then return false
             return false;
         }
     }
