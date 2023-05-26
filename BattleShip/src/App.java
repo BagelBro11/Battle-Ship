@@ -37,7 +37,6 @@ public class App {
     }
 
     public static void grid(int[][] array, int row, int col) {
-        Utilities.clrscrn();
         System.out.print("   ");
         for (int i = 0; i < 10; i++) {
             System.out.print((i + 1) + "  ");
