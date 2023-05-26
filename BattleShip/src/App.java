@@ -9,8 +9,8 @@ public class App {
         boolean done = false;
         Utilities.clrscrn();
         Utilities.prt(
-                "Please input cooridinate you'd like to flip, starting with the letter, space, and then the number.");
-        Utilities.prt("If you hit a boat it is a 2, if it is a miss it is a 1!");
+                "Please input cooridinate you'd like to choose, starting with the letter, space, and then the number.");
+        Utilities.prt("If you hit a boat it is a 2, if you miss it is a 1!");
         Utilities.prt("Be careful...you only have 50 guesses!");
         int i = 0;
         while (!done) {
