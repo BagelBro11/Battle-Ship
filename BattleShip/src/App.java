@@ -48,6 +48,7 @@ public class App {
                 done = true;
             } else {
                 i++;
+                Utilities.prt("You have used " + i + " attemps!");
             }
 
             // if the tries surpass 50 they lose and game is over
