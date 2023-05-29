@@ -15,11 +15,7 @@ public class App {
 
         // instruction for user
         Utilities.prt("----------BATTLESHIP----------");
-        MusicNotes.playNote("C5", 0.5);
-        MusicNotes.playNote("C5", 0.25);
-        MusicNotes.playNote("C5", 0.25);
-        MusicNotes.playNote("G5", 0.75);
-        MusicNotes.playNote("G5", 0.25);
+        music("intro");//example of calling music method
         Utilities.prt(
                 "Please input cooridinate you'd like to choose, starting with the letter, space, and then the number.");
         Utilities.prt("If you hit a boat it is a 2, if you miss it is a 1!");
@@ -47,12 +43,7 @@ public class App {
             // uses win method to check if won and ends game, if not adds a try
             if (win(grid)) {
                 // major C chord plays for a win
-                MusicNotes.playNote("C4", 0.33);
-                MusicNotes.playNote("E4", 0.33);
-                MusicNotes.playNote("G4", 0.33);
-                MusicNotes.playNote("E4", 0.33);
-                MusicNotes.playNote("C4", 1);
-                MusicNotes.playNote("C4", 0.33);
+                music("major");
                 Utilities.prt("Congratulations! You have won!");
                 done = true;
             } else {
@@ -62,12 +53,7 @@ public class App {
             // if the tries surpass 50 they lose and game is over
             if (i > 39) {
                 // D minor chord plays for loss
-                MusicNotes.playNote("D4", 0.33);
-                MusicNotes.playNote("F4", 0.33);
-                MusicNotes.playNote("A4", 0.33);
-                MusicNotes.playNote("F4", 0.33);
-                MusicNotes.playNote("D4", 1);
-                MusicNotes.playNote("D4", 0.33);
+                music("minor");
                 Utilities.prt("You have lost and used too many tries. Better luck next time!");
                 done = true;
             }
@@ -254,4 +240,31 @@ public class App {
         }
     }
 
+    /**
+     * this method de-clutters code and plays music depending on input
+     * @param key indicates what tune will be played(major, minor, intro)
+     */
+    public static void music(String key) {
+        if (key == "minor") {
+            MusicNotes.playNote("D4", 0.33);
+            MusicNotes.playNote("F4", 0.33);
+            MusicNotes.playNote("A4", 0.33);
+            MusicNotes.playNote("F4", 0.33);
+            MusicNotes.playNote("D4", 1);
+            MusicNotes.playNote("D4", 0.33);
+        } else if (key == "major") {
+            MusicNotes.playNote("C4", 0.33);
+            MusicNotes.playNote("E4", 0.33);
+            MusicNotes.playNote("G4", 0.33);
+            MusicNotes.playNote("E4", 0.33);
+            MusicNotes.playNote("C4", 1);
+            MusicNotes.playNote("C4", 0.33);
+        } else if (key == "intro") {
+            MusicNotes.playNote("C5", 0.5);
+            MusicNotes.playNote("C5", 0.25);
+            MusicNotes.playNote("C5", 0.25);
+            MusicNotes.playNote("G5", 0.75);
+            MusicNotes.playNote("G5", 0.25);
+        }
+    }
 }
