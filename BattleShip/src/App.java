@@ -63,7 +63,6 @@ public class App {
 
     /**
      * grid method is for printing the original grid with numbers and letters
-     * 
      * @param array is the array that will be printed by the method initialized in
      *              main
      * @param row   the "y" value of the array used in the for loop
@@ -111,7 +110,6 @@ public class App {
 
     /**
      * change method modifies the array to user specification
-     * 
      * @param array  array being modified from main
      * @param letter the letter or "y" coordinate specified
      * @param number the number or "x" coordinate specified
@@ -206,7 +204,6 @@ public class App {
 
     /**
      * win method checks if the user has hit all of the boats
-     * 
      * @param array the array checked for all the hits
      * @return //a true of false if all conditions satisfied
      */
