@@ -3,73 +3,88 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) throws InterruptedException {
         Scanner in = new Scanner(System.in);
-       
-        //creating the array in main 
+
+        // creating the array in main
         int row = 10;
         int col = 10;
         int[][] grid = new int[row][col];
-       
-        //done to check weather to still run while loop
+
+        // done to check weather to still run while loop
         boolean done = false;
         Utilities.clrscrn();
-       
-        //instruction for user
+
+        // instruction for user
         Utilities.prt("----------BATTLESHIP----------");
         Utilities.prt(
                 "Please input cooridinate you'd like to choose, starting with the letter, space, and then the number.");
         Utilities.prt("If you hit a boat it is a 2, if you miss it is a 1!");
-        Utilities.prt("Be careful...you only have 50 guesses to fully destroy all 5 boats!");
+        Utilities.prt("Be careful...you only have 40 guesses to fully destroy all 5 boats!");
         Utilities.prt("The boats vary in length, 5, 4, 3, 3, and 2 units long!");
 
-       
-        //counter for how many tries user has taken
+        // counter for how many tries user has taken
         int i = 0;
-        
-        //game loop that is checked with done boolean 
+
+        // game loop that is checked with done boolean
         while (!done) {
-            //uses grid method to print the map
+            // uses grid method to print the map
             grid(grid, 10, 10);
 
-            //gets user input and splits it into an array, a letter and a number in one line 
+            // gets user input and splits it into an array, a letter and a number in one
+            // line
             System.out.print("Enter: ");
             String input = in.nextLine();
             String[] string = input.split(" ");
             string[0] = string[0].toLowerCase();
 
-            //adds the input to the change method 
+            // adds the input to the change method
             change(grid, string[0], Integer.parseInt(string[1]));
 
-            //uses win method to check if won and ends game, if not adds a try
+            // uses win method to check if won and ends game, if not adds a try
             if (win(grid)) {
-                Utilities.prt("You have won!");
+                //major C chord plays for a win
+                MusicNotes.playNote("C4", 0.33);
+                MusicNotes.playNote("E4", 0.33);
+                MusicNotes.playNote("G4", 0.33);
+                MusicNotes.playNote("E4", 0.33);
+                MusicNotes.playNote("C4", 1);
+                MusicNotes.playNote("C4", 0.33);
+                Utilities.prt("Congratulations! You have won!");
                 done = true;
-            }
-            else{
+            } else {
                 i++;
             }
-            
-            //if the tries surpass 50 they lose and game is over
-            if(i > 50){
-                Utilities.prt("You have lost and used too many tries.");
+
+            // if the tries surpass 50 they lose and game is over
+            if (i > 39) {
+                //D minor chord plays for loss
+                MusicNotes.playNote("D4", 0.33);
+                MusicNotes.playNote("F4", 0.33);
+                MusicNotes.playNote("A4", 0.33);
+                MusicNotes.playNote("F4", 0.33);
+                MusicNotes.playNote("D4", 1);
+                MusicNotes.playNote("D4", 0.33);
+                Utilities.prt("You have lost and used too many tries. Better luck next time!");
                 done = true;
             }
         }
     }
-    
+
     /**
-     * grid method is for printing the original grid with numbers and letters 
-     * @param array is the array that will be printed by the method initialized in main
-     * @param row the "y" value of the array used in the for loop
-     * @param col the "x" value of the array used in the inner "j" for loop
+     * grid method is for printing the original grid with numbers and letters
+     * 
+     * @param array is the array that will be printed by the method initialized in
+     *              main
+     * @param row   the "y" value of the array used in the for loop
+     * @param col   the "x" value of the array used in the inner "j" for loop
      */
     public static void grid(int[][] array, int row, int col) {
         System.out.print("   ");
-        //prints numbers above the array for x cooridinate tracking
+        // prints numbers above the array for x cooridinate tracking
         for (int i = 0; i < 10; i++) {
             System.out.print((i + 1) + "  ");
         }
-        
-        //prints letters on the y axis of array for y cooridinate tracking
+
+        // prints letters on the y axis of array for y cooridinate tracking
         for (int i = 0; i < row; i++) {
             if (i == 0) {
                 System.out.print("\nA  ");
@@ -92,7 +107,7 @@ public class App {
             } else if (i == 9) {
                 System.out.print("J  ");
             }
-            //after letters are printed the rest of numbered array is printed
+            // after letters are printed the rest of numbered array is printed
             for (int j = 0; j < col; j++) {
 
                 System.out.print(array[i][j] + "  ");
@@ -104,109 +119,113 @@ public class App {
 
     /**
      * change method modifies the array to user specification
-     * @param array array being modified from main
+     * 
+     * @param array  array being modified from main
      * @param letter the letter or "y" coordinate specified
      * @param number the number or "x" coordinate specified
      */
     public static void change(int[][] array, String letter, int number) {
-        //able to convert letters into numbers using ASCII table
+        // able to convert letters into numbers using ASCII table
         int row = letter.charAt(0) - 97;
-       
-        //depending on the "hit" coordinates they will change to 2 if number and letter are correct
+
+        // depending on the "hit" coordinates they will change to 2 if number and letter
+        // are correct
         if (letter.equals("a")) {
             if (number == 5) {
                 array[row][4] = 2;
-                //if a boat was hit it will play a sound
-                MusicNotes.playNote("A5", 0.25);
+                // if a boat was hit it will play a sound
+                MusicNotes.playNote("A4", 0.5);
             } else if (number == 9) {
                 array[row][8] = 2;
-                MusicNotes.playNote("A5", 0.25);
+                MusicNotes.playNote("A4", 0.5);
             } else if (number == 10) {
                 array[row][9] = 2;
-                MusicNotes.playNote("A5", 0.25);
+                MusicNotes.playNote("A4", 0.5);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("b")) {
             if (number == 1) {
                 array[row][0] = 2;
-                MusicNotes.playNote("B5", 0.25);
+                MusicNotes.playNote("B4", 0.5);
             } else if (number == 5) {
                 array[row][4] = 2;
-                MusicNotes.playNote("B5", 0.25);
+                MusicNotes.playNote("B4", 0.5);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("c")) {
             if (number == 1) {
                 array[row][0] = 2;
-                MusicNotes.playNote("C5", 0.25);
+                MusicNotes.playNote("C5", 0.5);
             } else if (number == 5) {
                 array[row][4] = 2;
-                MusicNotes.playNote("C5", 0.25);
+                MusicNotes.playNote("C5", 0.5);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("d")) {
             if (number == 1) {
                 array[row][0] = 2;
-                MusicNotes.playNote("D5", 0.25);
+                MusicNotes.playNote("D5", 0.5);
             } else if (number == 5) {
                 array[row][4] = 2;
-                MusicNotes.playNote("D5", 0.25);
+                MusicNotes.playNote("D5", 0.5);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("f")) {
             if (number == 8) {
                 array[row][7] = 2;
-                MusicNotes.playNote("F5", 0.25);
+                MusicNotes.playNote("F5", 0.5);
             } else if (number == 9) {
                 array[row][8] = 2;
-                MusicNotes.playNote("F5", 0.25);
+                MusicNotes.playNote("F5", 0.5);
             } else if (number == 7) {
                 array[row][6] = 2;
-                MusicNotes.playNote("F5", 0.25);
+                MusicNotes.playNote("F5", 0.5);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("i")) {
             if (number == 4) {
                 array[row][3] = 2;
-                MusicNotes.playNote("G5", 0.25);
+                MusicNotes.playNote("G5", 0.5);
             } else if (number == 5) {
                 array[row][4] = 2;
-                MusicNotes.playNote("G5", 0.25);
+                MusicNotes.playNote("G5", 0.5);
             } else if (number == 6) {
                 array[row][5] = 2;
-                MusicNotes.playNote("G5", 0.25);
+                MusicNotes.playNote("G5", 0.5);
             } else if (number == 7) {
                 array[row][6] = 2;
-                MusicNotes.playNote("G5", 0.25);
+                MusicNotes.playNote("G5", 0.5);
             } else if (number == 8) {
                 array[row][7] = 2;
-                MusicNotes.playNote("G5", 0.25);
+                MusicNotes.playNote("G5", 0.5);
             } else {
                 array[row][number - 1] = 1;
             }
-        } else { //if it is not a hit it turns into a one ("else miss" also found above for the specified letters )
+        } else { // if it is not a hit it turns into a one ("else miss" also found above for the
+                 // specified letters )
             array[row][number - 1] = 1;
         }
     }
 
     /**
-     * win method checks if the user has hit all of the boats 
-     * @param array the array checked for all the hits 
+     * win method checks if the user has hit all of the boats
+     * 
+     * @param array the array checked for all the hits
      * @return //a true of false if all conditions satisfied
      */
     public static boolean win(int[][] array) {
-        //one boolean for each boat 
+        // one boolean for each boat
         boolean one = false;
         boolean two = false;
         boolean three = false;
         boolean four = false;
         boolean five = false;
-        //if coordinates of each boat are hit it satisfies it's paralell boolean 
+        // if coordinates of each boat are hit it satisfies it's paralell boolean
         if (array[0][8] == 2 && array[0][9] == 2) {
             one = true;
         }
@@ -222,10 +241,10 @@ public class App {
         if (array[8][3] == 2 && array[8][4] == 2 && array[8][5] == 2 && array[8][6] == 2 && array[8][7] == 2) {
             five = true;
         }
-        //all boats are satisfies returns true for win
+        // all boats are satisfies returns true for win
         if (one && two && three && four && five) {
             return true;
-        } else {//if not then return false
+        } else {// if not then return false
             return false;
         }
     }

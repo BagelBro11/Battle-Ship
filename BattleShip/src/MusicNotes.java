@@ -17,28 +17,32 @@ public class MusicNotes {
     public static final int BUF_SIZE = 32000;
     public static final int SAMPLE_RATE = 44000;
     public static final int FREQUENCY_A4 = 440;
-    public static final int AMPLITUDE = 10;
+    public static final int DEFAULT_AMPLITUDE = 127;
 
-    private static Map<String, Double> noteFrequencies = getNoteFrequencyMap(1, 7);
+    private static Map<String, Double> noteFrequencies = getNoteFrequencyMap(0, 7);
     private static SourceDataLine dataLine = initDataLine();
     private static byte[] buffer = new byte[BUF_SIZE];
 
-    // public static void main(String[] args) {
-    // // playNote("C3", 3);
+    public static void main(String[] args) {
+        // playNote("C3", 3);
 
-    // var frequencyNoteList = invertMap(noteFrequencies);
-    // for (var pair : frequencyNoteList) {
-    // System.out.printf("%-5s: %s\n", Math.round(pair.getKey()), String.join(" ",
-    // pair.getValue()));
-    // play(pair.getKey(), 1);
-    // }
+        // Sort by frequency, and play all the notes.
+        var invertedMap = inverseMap(noteFrequencies);
+        var frequencyNoteList = new ArrayList<>(invertedMap.entrySet());
+        frequencyNoteList.sort(Comparator.comparing(entry -> entry.getKey()));
 
-    // String[]notes="C3 D3 E3 F3 G3 A3 B3 C4 D4 E4 F4 G4 A4 B4".split(" ");
-    // for(String note:notes) {
-    // System.out.println(noteFrequencies.get(note));
-    // //playNote(note,1);
-    // }
-    // }
+        for (var pair : frequencyNoteList) {
+            System.out.printf("%-5s: %s\n", Math.round(pair.getKey()), String.join(" ",
+                    pair.getValue()));
+            play(pair.getKey(), .1);
+        }
+
+        String[] notes = "C3 D3 E3 F3 G3 A3 B3 C4 D4 E4 F4 G4 A4 B4".split(" ");
+        for (String note : notes) {
+            System.out.println(noteFrequencies.get(note));
+            // playNote(note,1);
+        }
+    }
 
     /**
      * Plays specified note for specified duration. See musical notations:
@@ -49,6 +53,11 @@ public class MusicNotes {
      * @param durationSec Duration (in seconds) to play note for.
      */
     public static void playNote(String note, double durationSec) {
+        if (note == null || note.isBlank()) {
+            play(0, durationSec);
+            return;
+        }
+
         Double frequency = noteFrequencies.get(note);
 
         if (frequency == null) {
@@ -75,15 +84,96 @@ public class MusicNotes {
      * @param durationSec Duraction in seconds.
      */
     public static void play(double frequencyHz, double durationSec) {
-        long start = System.nanoTime();
+        // TODO: Parameter to specify whether to taper off at end, to reduce popping sound.
+        playChord(durationSec, frequencyHz);
+    }
 
+    /**
+     * Plays set of notes (chord) at the same time. See {@link #playChord(double, String...)}
+     * @param durationSec Duration to play (seconds).
+     * @param notes Notes to play.
+     */
+    public static void playChord(double durationSec, String... notes) {
+        // Get frequencies.
+        var frequencies = new double[notes.length];
+        for (var i = 0; i < notes.length; i++) {
+            var note = notes[i];
+
+            if (note == null || note.isBlank()) {
+                continue;
+            }
+
+            Double frequency = noteFrequencies.get(note);
+
+            if (frequency == null) {
+                System.err.println("Unrecognized note: " + note);
+                continue;
+            }
+
+            frequencies[i] = noteFrequencies.get(note);
+        }
+
+        // Play chord.
+        playChord(durationSec, frequencies);
+    }
+
+    /**
+     * Plays set of frequencies (chord) at the same time.
+     * @param durationSec Duration to play (seconds).
+     * @param frequenciesHz Frequencies to play.
+     */
+    public static void playChord(double durationSec, double... frequenciesHz) {
+        byte amp = DEFAULT_AMPLITUDE;   // TODO: Make into parameter.
+
+        // TODO: Equalizer, or just bass boost.
+        int countNonZero = 0;
+        for (var freq : frequenciesHz) {
+            if (freq > 0)
+                countNonZero++;
+        }
+
+        var totalBaseAmplitude = moderateAmplitude(countNonZero * amp);
+        double baseAmplitude = (double) totalBaseAmplitude / countNonZero;
+
+        // long start = System.nanoTime();
         long beat = 0;
-        while (System.nanoTime() - start < durationSec * 1_000_000_000) {
-            for (int i = 0; i < BUF_SIZE; i++, beat++) {
-                buffer[i] = (byte) (AMPLITUDE * Math.sin(2 * Math.PI * frequencyHz * beat / SAMPLE_RATE));
+        // while (System.nanoTime() - start < durationSec * 1_000_000_000) {
+        while ((double) (beat + buffer.length) / SAMPLE_RATE <= durationSec) {
+            for (int i = 0; i < buffer.length; i++, beat++) {
+                buffer[i] = (byte) combineAmplitudes(frequenciesHz, baseAmplitude, beat);
             }
             dataLine.write(buffer, 0, buffer.length);
         }
+
+        // Remaining few beats fewer than buffer size:
+        int i;
+        for (i = 0; (double) beat / SAMPLE_RATE < durationSec; i++, beat++) {
+            buffer[i] = (byte) combineAmplitudes(frequenciesHz, baseAmplitude, beat);
+        }
+        dataLine.write(buffer, 0, i);
+    }
+
+    /**
+     * Add up amplitudes of each given frequency's amplitude at the 
+     * @param frequenciesHz
+     * @param baseAmplitude
+     * @param beat
+     * @return
+     */
+    private static double combineAmplitudes(double[] frequenciesHz, double baseAmplitude, long beat) {
+        double amplitude = 0;
+        for (var frequency : frequenciesHz) {
+            if (frequency == 0)
+                continue;
+            amplitude += baseAmplitude * Math.sin(2 * Math.PI * frequency * beat / SAMPLE_RATE);
+        }
+        return amplitude;
+    }
+
+    public static byte moderateAmplitude(long amplitude) {
+        var curveStrength = 10;
+        var power = -127 * Math.exp(-curveStrength * amplitude) + 127;
+        return (byte) Math.round(power);
     }
 
     private static SourceDataLine initDataLine() {
@@ -155,11 +245,14 @@ public class MusicNotes {
 
         char naturalNote = note.charAt(0);
 
-        // Sharps:
-        if (note.charAt(1) == '#') {
+        // Special case sharp.
+        if (note.startsWith("G#"))
+            return "Ab" + note.substring(2);
+
+        // All other sharps:
+        if (note.charAt(1) == '#')
             // Return equivalent flat:
             return (char) (naturalNote + 1) + "b" + note.substring(2);
-        }
 
         // Naturals:
         int scale = Integer.parseInt(note.substring(1));
@@ -178,24 +271,30 @@ public class MusicNotes {
         return null;
     }
 
-    private static <S, T extends Comparable<T>> List<Entry<T, List<S>>> invertMap(final Map<S, T> map) {
+    /**
+     * Creates and returns new map by inverting the key-value relationship, similar
+     * to the inverse of a mathematical function.
+     * In the new map, each value from the original map is mapped to the list of
+     * keys associated with the value.
+     * 
+     * @param <S> Key type of original map.
+     * @param <T> Value
+     * @param map Original map.
+     * @return Inverse map.
+     */
+    public static <S, T extends Comparable<T>> Map<T, List<S>> inverseMap(final Map<S, T> map) {
 
-        Map<T, List<S>> inverseMap = new HashMap<>();
+        Map<T, List<S>> invertedMap = new HashMap<>();
         for (Entry<S, T> entry : map.entrySet()) {
             S key = entry.getKey();
             T value = entry.getValue();
-            if (inverseMap.get(value) == null) {
-                inverseMap.put(value, new ArrayList<>());
+            if (invertedMap.get(value) == null) {
+                invertedMap.put(value, new ArrayList<>());
             }
 
-            inverseMap.get(value).add(key);
+            invertedMap.get(value).add(key);
         }
 
-        // Sort by frequency.
-        var frequencyNoteList = new ArrayList<>(inverseMap.entrySet());
-        frequencyNoteList.sort(Comparator.comparing(entry -> entry.getKey()));
-
-        return frequencyNoteList;
+        return invertedMap;
     }
 }
-
