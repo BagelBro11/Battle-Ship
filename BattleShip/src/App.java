@@ -18,7 +18,9 @@ public class App {
         Utilities.prt(
                 "Please input cooridinate you'd like to choose, starting with the letter, space, and then the number.");
         Utilities.prt("If you hit a boat it is a 2, if you miss it is a 1!");
-        Utilities.prt("Be careful...you only have 50 guesses to fully destroy all the boats!");
+        Utilities.prt("Be careful...you only have 50 guesses to fully destroy all 5 boats!");
+        Utilities.prt("The boats vary in length, 5, 4, 3, 3, and 2 units long!");
+
        
         //counter for how many tries user has taken
         int i = 0;
@@ -114,58 +116,76 @@ public class App {
         if (letter.equals("a")) {
             if (number == 5) {
                 array[row][4] = 2;
+                //if a boat was hit it will play a sound
+                MusicNotes.playNote("A5", 0.25);
             } else if (number == 9) {
                 array[row][8] = 2;
+                MusicNotes.playNote("A5", 0.25);
             } else if (number == 10) {
                 array[row][9] = 2;
+                MusicNotes.playNote("A5", 0.25);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("b")) {
             if (number == 1) {
                 array[row][0] = 2;
+                MusicNotes.playNote("B5", 0.25);
             } else if (number == 5) {
                 array[row][4] = 2;
+                MusicNotes.playNote("B5", 0.25);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("c")) {
             if (number == 1) {
                 array[row][0] = 2;
+                MusicNotes.playNote("C5", 0.25);
             } else if (number == 5) {
                 array[row][4] = 2;
+                MusicNotes.playNote("C5", 0.25);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("d")) {
             if (number == 1) {
                 array[row][0] = 2;
+                MusicNotes.playNote("D5", 0.25);
             } else if (number == 5) {
                 array[row][4] = 2;
+                MusicNotes.playNote("D5", 0.25);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("f")) {
             if (number == 8) {
                 array[row][7] = 2;
+                MusicNotes.playNote("F5", 0.25);
             } else if (number == 9) {
                 array[row][8] = 2;
+                MusicNotes.playNote("F5", 0.25);
             } else if (number == 7) {
                 array[row][6] = 2;
+                MusicNotes.playNote("F5", 0.25);
             } else {
                 array[row][number - 1] = 1;
             }
         } else if (letter.equals("i")) {
             if (number == 4) {
                 array[row][3] = 2;
+                MusicNotes.playNote("G5", 0.25);
             } else if (number == 5) {
                 array[row][4] = 2;
+                MusicNotes.playNote("G5", 0.25);
             } else if (number == 6) {
                 array[row][5] = 2;
+                MusicNotes.playNote("G5", 0.25);
             } else if (number == 7) {
                 array[row][6] = 2;
+                MusicNotes.playNote("G5", 0.25);
             } else if (number == 8) {
                 array[row][7] = 2;
+                MusicNotes.playNote("G5", 0.25);
             } else {
                 array[row][number - 1] = 1;
             }
