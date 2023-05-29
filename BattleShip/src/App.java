@@ -15,6 +15,11 @@ public class App {
 
         // instruction for user
         Utilities.prt("----------BATTLESHIP----------");
+        MusicNotes.playNote("C5", 0.5);
+        MusicNotes.playNote("C5", 0.25);
+        MusicNotes.playNote("C5", 0.25);
+        MusicNotes.playNote("G5", 0.75);
+        MusicNotes.playNote("G5", 0.25);
         Utilities.prt(
                 "Please input cooridinate you'd like to choose, starting with the letter, space, and then the number.");
         Utilities.prt("If you hit a boat it is a 2, if you miss it is a 1!");
@@ -41,7 +46,7 @@ public class App {
 
             // uses win method to check if won and ends game, if not adds a try
             if (win(grid)) {
-                //major C chord plays for a win
+                // major C chord plays for a win
                 MusicNotes.playNote("C4", 0.33);
                 MusicNotes.playNote("E4", 0.33);
                 MusicNotes.playNote("G4", 0.33);
@@ -56,7 +61,7 @@ public class App {
 
             // if the tries surpass 50 they lose and game is over
             if (i > 39) {
-                //D minor chord plays for loss
+                // D minor chord plays for loss
                 MusicNotes.playNote("D4", 0.33);
                 MusicNotes.playNote("F4", 0.33);
                 MusicNotes.playNote("A4", 0.33);
