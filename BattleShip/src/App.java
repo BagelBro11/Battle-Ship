@@ -18,7 +18,7 @@ public class App {
         music("intro");//example of calling music method
         Utilities.prt(
                 "Please input cooridinate you'd like to choose, starting with the letter, space, and then the number.");
-        Utilities.prt("If you hit a boat it is a 2, if you miss it is a 1!");
+        Utilities.prt("If you hit a boat it is a 2 and a sound will play, if you miss it is a 1!");
         Utilities.prt("Be careful...you only have 40 guesses to fully destroy all 5 boats!");
         Utilities.prt("The boats vary in length, 5, 4, 3, 3, and 2 units long!");
 
